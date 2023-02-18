@@ -1,11 +1,12 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import HomeScreen from './src/screens/HomeScreen';
 
 const App = () => {
   return (
-    <SafeAreaView className="flex-1 items-center justify-center">
-      <Text>Hello World!</Text>
-    </SafeAreaView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <HomeScreen />
+    </GestureHandlerRootView>
   );
 };
 
