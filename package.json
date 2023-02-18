@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.2",
     "react": "18.2.0",
     "react-native": "0.71.3",
     "react-native-gesture-handler": "^2.9.0",
@@ -19,6 +20,7 @@
     "react-native-svg": "^13.8.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-vision-camera": "^2.15.4",
+    "react-redux": "^8.0.5",
     "vision-camera-code-scanner": "^0.2.0"
   },
   "devDependencies": {
