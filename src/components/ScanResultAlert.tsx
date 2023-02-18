@@ -12,12 +12,15 @@ import {
 } from 'react-native-gesture-handler';
 import QRCode from 'react-native-qrcode-svg';
 import Animated, {
+  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useAppDispatch } from '../hooks';
+import { setScanQrFps } from '../redux/slices/scanQrFpsSlice';
 
 interface ScanResultAlertProps {
   result: string;
@@ -32,6 +35,8 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
   result,
   animateOffset,
 }) => {
+  const dispatch = useAppDispatch();
+
   const offset = useSharedValue(-1);
   const translateX = useSharedValue(0);
 
@@ -44,6 +49,10 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
       transform: [{ translateY: withSpring(offset.value * 255) }],
     };
   });
+
+  const changeFpsOnDrag = (data: 2 | 0) => {
+    dispatch(setScanQrFps({ scanQrFps: data }));
+  };
 
   const panGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
@@ -63,6 +72,10 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
         translateX.value = withSpring(-500);
       } else {
         translateX.value = withSpring(0);
+      }
+
+      if (context.translateX >= 100 || context.translateX <= -100) {
+        runOnJS(changeFpsOnDrag)(2);
       }
     },
   });

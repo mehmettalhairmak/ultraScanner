@@ -16,11 +16,16 @@ import { runOnJS } from 'react-native-reanimated';
 import QrFrame from '../components/QrFrame';
 import ScanResultAlert from '../components/ScanResultAlert';
 import Torch from '../components/Torch';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { selectScanQrFps, setScanQrFps } from '../redux/slices/scanQrFpsSlice';
 
 const HomeScreen = () => {
+  const dispatch = useAppDispatch();
+  const scanQrFps = useAppSelector(selectScanQrFps);
+
   const devices = useCameraDevices();
   const device = devices.back;
-  const [scanQrFps, setScanQrFps] = React.useState<0 | 2>(2);
+
   const [qrResult, setQrResult] = React.useState<string>('');
   const [hasPermission, setHasPermission] = React.useState(false);
   const [qrResultAlert, setQrResultAlert] = React.useState<-1 | 0>(0);
@@ -35,10 +40,11 @@ const HomeScreen = () => {
   }, []);
 
   const setBarcodes = (detectedBarcodes: Barcode[]) => {
+    console.log('scanning');
     if (detectedBarcodes[0]?.displayValue !== undefined) {
       console.log('a');
       setQrResult(detectedBarcodes[0].displayValue);
-      setScanQrFps(0);
+      dispatch(setScanQrFps({ scanQrFps: 0 }));
       setQrResultAlert(0);
     } else if (
       qrResult !== '' &&
@@ -46,7 +52,7 @@ const HomeScreen = () => {
     ) {
       console.log('b');
       setQrResult('');
-      setScanQrFps(2);
+      dispatch(setScanQrFps({ scanQrFps: 2 }));
       setQrResultAlert(-1);
     }
   };
