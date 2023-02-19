@@ -22,6 +22,7 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useAppDispatch } from '../hooks';
 import { setScanQrFps } from '../redux/slices/scanQrFpsSlice';
 import Clipboard from '@react-native-clipboard/clipboard';
+import Toast from 'react-native-toast-message';
 
 interface ScanResultAlertProps {
   result: string;
@@ -93,7 +94,11 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
       await Linking.openURL(result);
     } else {
       Clipboard.setString(result);
-      console.log('could not open');
+      Toast.show({
+        type: 'success',
+        text1: 'Copied text to clipboard.',
+        position: 'bottom',
+      });
     }
   };
 
@@ -105,7 +110,9 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
         </View>
         <View style={styles.titleField}>
           <TouchableOpacity onPress={titleOnPress}>
-            <Text style={{ color: '#FFFF', fontFamily: 'Roboto-Bold' }}>
+            <Text
+              style={{ color: '#FFFF', fontFamily: 'Roboto-Bold' }}
+              numberOfLines={3}>
               {result}
             </Text>
           </TouchableOpacity>
