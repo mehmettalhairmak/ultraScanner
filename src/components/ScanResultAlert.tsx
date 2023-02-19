@@ -21,6 +21,7 @@ import Animated, {
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useAppDispatch } from '../hooks';
 import { setScanQrFps } from '../redux/slices/scanQrFpsSlice';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface ScanResultAlertProps {
   result: string;
@@ -87,12 +88,11 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
   });
 
   const titleOnPress = async () => {
-    console.log(result);
     const supportLinking = await Linking.canOpenURL(result);
-    console.log(supportLinking);
     if (supportLinking) {
       await Linking.openURL(result);
     } else {
+      Clipboard.setString(result);
       console.log('could not open');
     }
   };
