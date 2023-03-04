@@ -22,6 +22,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParams } from '../../App';
+import {
+  BannerAd,
+  BannerAdSize,
+  TestIds,
+} from 'react-native-google-mobile-ads';
+import { showInterstitialAd } from '../ads/interstitial';
+import { showRewardedAd } from '../ads/rewarded';
 
 const QRGeneratorScreen = () => {
   const navigation =
@@ -30,9 +37,14 @@ const QRGeneratorScreen = () => {
   let qrRef: any;
   const [qrCodeName, setQrCodeName] = React.useState('');
   const [qrCodeValue, setQrCodeValue] = React.useState('');
+
   const [nameInputValidation, setNameInputValidation] = React.useState(false);
   const [contentInputValidation, setContentInputValidation] =
     React.useState(false);
+
+  React.useEffect(() => {
+    showInterstitialAd();
+  }, []);
 
   const hasAndroidPermission = async () => {
     const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
@@ -46,6 +58,24 @@ const QRGeneratorScreen = () => {
     return status === 'granted';
   };
 
+  const nameOnChangeText = (value: string) => {
+    setQrCodeName(value);
+    if (value.length < 1) {
+      setNameInputValidation(false);
+    } else {
+      setNameInputValidation(true);
+    }
+  };
+
+  const contentOnChangeText = (value: string) => {
+    setQrCodeValue(value);
+    if (value.length < 1) {
+      setContentInputValidation(false);
+    } else {
+      setContentInputValidation(true);
+    }
+  };
+
   const onSave = async () => {
     if (!nameInputValidation || !contentInputValidation) {
       Toast.show({
@@ -57,6 +87,8 @@ const QRGeneratorScreen = () => {
       if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
         return;
       }
+
+      showRewardedAd();
 
       qrRef.toDataURL((data: any) => {
         let filePath = RNFS.CachesDirectoryPath + `/${qrCodeName}.png`;
@@ -82,6 +114,8 @@ const QRGeneratorScreen = () => {
         position: 'bottom',
       });
     } else {
+      showRewardedAd();
+
       qrRef.toDataURL((url: any) => {
         let shareImageBase64 = {
           showAppsToView: true,
@@ -95,25 +129,10 @@ const QRGeneratorScreen = () => {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View
-        style={{
-          height: hp(15),
-          paddingHorizontal: wp(3),
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <View style={{ width: 30, height: 30 }}></View>
-
+      <View style={styles.header}>
+        <View style={{ width: 30, height: 30 }} />
         <TouchableOpacity
-          style={{
-            width: hp(5),
-            height: hp(5),
-            borderRadius: hp(5),
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'gray',
-          }}
+          style={styles.headerNavigateButton}
           onPress={() => navigation.navigate('QRScannerScreen')}>
           <Ionicons name="arrow-back" color="white" size={hp(3)} />
         </TouchableOpacity>
@@ -136,40 +155,24 @@ const QRGeneratorScreen = () => {
         ) : null}
       </View>
       {/* Input Content */}
-      <View
-        style={{
-          height: hp(5),
-          width: wp(100),
-          alignItems: 'center',
-          gap: hp(4),
-        }}>
+      <View style={styles.inputContent}>
         {/* Input Name */}
         <View>
           <Text
-            style={{
-              color: nameInputValidation ? '#FFFF' : 'red',
-              marginLeft: wp(3),
-              fontFamily: 'Roboto-Bold',
-            }}>
+            style={[
+              styles.inputLabel,
+              { color: nameInputValidation ? '#FFFF' : 'red' },
+            ]}>
             Name*
           </Text>
           <View
-            style={{
-              borderWidth: 1,
-              width: wp(90),
-              borderRadius: wp(50),
-              borderColor: nameInputValidation ? '#FFFF' : 'red',
-            }}>
+            style={[
+              styles.inputView,
+              { borderColor: nameInputValidation ? '#FFFF' : 'red' },
+            ]}>
             <TextInput
               value={qrCodeName}
-              onChangeText={value => {
-                setQrCodeName(value);
-                if (value.length < 1) {
-                  setNameInputValidation(false);
-                } else {
-                  setNameInputValidation(true);
-                }
-              }}
+              onChangeText={nameOnChangeText}
               style={{ padding: wp(2), color: '#FFFF' }}
             />
           </View>
@@ -177,68 +180,41 @@ const QRGeneratorScreen = () => {
         {/* Input Content */}
         <View>
           <Text
-            style={{
-              color: contentInputValidation ? '#FFFF' : 'red',
-              marginLeft: wp(3),
-              fontFamily: 'Roboto-Bold',
-            }}>
+            style={[
+              styles.inputLabel,
+              { color: contentInputValidation ? '#FFFF' : 'red' },
+            ]}>
             Content*
           </Text>
           <View
-            style={{
-              borderWidth: 1,
-              width: wp(90),
-              borderRadius: wp(50),
-              borderColor: contentInputValidation ? '#FFFF' : 'red',
-            }}>
+            style={[
+              styles.inputView,
+              { borderColor: contentInputValidation ? '#FFFF' : 'red' },
+            ]}>
             <TextInput
               value={qrCodeValue}
-              onChangeText={value => {
-                setQrCodeValue(value);
-                if (value.length < 1) {
-                  setContentInputValidation(false);
-                } else {
-                  setContentInputValidation(true);
-                }
-              }}
+              onChangeText={contentOnChangeText}
               style={{ padding: wp(2), color: '#FFFF' }}
             />
           </View>
         </View>
         {/* Button Save */}
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity
-            style={{
-              width: wp(35),
-              height: hp(8),
-              borderTopLeftRadius: wp(50),
-              borderBottomLeftRadius: wp(50),
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#FFFF',
-            }}
-            onPress={onSave}>
+          <TouchableOpacity style={styles.buttonSave} onPress={onSave}>
             <Text style={{ color: '#000', fontFamily: 'Roboto-Bold' }}>
               Save
             </Text>
           </TouchableOpacity>
           {/* Button Share */}
-          <TouchableOpacity
-            style={{
-              width: wp(35),
-              height: hp(8),
-              borderTopRightRadius: wp(50),
-              borderBottomRightRadius: wp(50),
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#000',
-            }}
-            onPress={onShare}>
+          <TouchableOpacity style={styles.buttonShare} onPress={onShare}>
             <Text style={{ color: '#FFFF', fontFamily: 'Roboto-Bold' }}>
               Share
             </Text>
           </TouchableOpacity>
         </View>
+      </View>
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+        <BannerAd unitId={TestIds.BANNER} size={BannerAdSize.FULL_BANNER} />
       </View>
     </View>
   );
@@ -248,6 +224,53 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2D4263',
+  },
+  header: {
+    height: hp(15),
+    paddingHorizontal: wp(3),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerNavigateButton: {
+    width: hp(5),
+    height: hp(5),
+    borderRadius: hp(5),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'gray',
+  },
+  inputContent: {
+    width: wp(100),
+    alignItems: 'center',
+    gap: hp(4),
+  },
+  inputLabel: {
+    marginLeft: wp(3),
+    fontFamily: 'Roboto-Bold',
+  },
+  inputView: {
+    borderWidth: 1,
+    width: wp(90),
+    borderRadius: wp(50),
+  },
+  buttonSave: {
+    width: wp(35),
+    height: hp(8),
+    borderTopLeftRadius: wp(50),
+    borderBottomLeftRadius: wp(50),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFF',
+  },
+  buttonShare: {
+    width: wp(35),
+    height: hp(8),
+    borderTopRightRadius: wp(50),
+    borderBottomRightRadius: wp(50),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
   },
 });
 
