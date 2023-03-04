@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import {
   Camera,
   useCameraDevices,
@@ -11,15 +11,25 @@ import {
   BarcodeFormat,
   scanBarcodes,
 } from 'vision-camera-code-scanner';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import { runOnJS } from 'react-native-reanimated';
 import QrFrame from '../components/QrFrame';
 import ScanResultAlert from '../components/ScanResultAlert';
 import Torch from '../components/Torch';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { selectScanQrFps, setScanQrFps } from '../redux/slices/scanQrFpsSlice';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParams } from '../../App';
 
-const HomeScreen = () => {
+const QRScannerScreen = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
   const dispatch = useAppDispatch();
   const scanQrFps = useAppSelector(selectScanQrFps);
 
@@ -40,9 +50,7 @@ const HomeScreen = () => {
   }, []);
 
   const setBarcodes = (detectedBarcodes: Barcode[]) => {
-    console.log('scanning');
     if (detectedBarcodes[0]?.displayValue !== undefined) {
-      console.log('a');
       setQrResult(detectedBarcodes[0].displayValue);
       dispatch(setScanQrFps({ scanQrFps: 0 }));
       setQrResultAlert(0);
@@ -50,7 +58,6 @@ const HomeScreen = () => {
       qrResult !== '' &&
       detectedBarcodes[0]?.displayValue === undefined
     ) {
-      console.log('b');
       setQrResult('');
       dispatch(setScanQrFps({ scanQrFps: 2 }));
       setQrResultAlert(-1);
@@ -75,9 +82,8 @@ const HomeScreen = () => {
     }
   };
 
-  return (
-    device != null &&
-    hasPermission && (
+  if (device != null && hasPermission) {
+    return (
       <>
         <Camera
           style={StyleSheet.absoluteFill}
@@ -91,12 +97,18 @@ const HomeScreen = () => {
         <View style={styles.container}>
           {/* Header */}
           <View style={styles.header}>
+            <View style={{ width: 30, height: 30 }}></View>
             {scanQrFps === 0 ? (
               <ScanResultAlert
                 result={qrResult}
                 animateOffset={qrResultAlert}
               />
             ) : null}
+            <TouchableOpacity
+              style={styles.qrGenerationNavigateButton}
+              onPress={() => navigation.navigate('QRGeneratorScreen')}>
+              <Ionicons name="qr-code" color="white" size={hp(3)} />
+            </TouchableOpacity>
           </View>
           {/* Body */}
           <View style={styles.body}>
@@ -108,7 +120,23 @@ const HomeScreen = () => {
           </View>
         </View>
       </>
-    )
+    );
+  }
+
+  return (
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: '#000',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+      ]}>
+      <Text style={{ fontFamily: 'Roboto-Bold', color: '#FFFF' }}>
+        Please set camera permission in settings
+      </Text>
+    </View>
   );
 };
 
@@ -116,7 +144,9 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   header: {
     height: hp(15),
-    justifyContent: 'center',
+    paddingHorizontal: wp(3),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   body: {
@@ -129,6 +159,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  qrGenerationNavigateButton: {
+    width: hp(5),
+    height: hp(5),
+    borderRadius: hp(5),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'gray',
+  },
 });
 
-export default HomeScreen;
+export default QRScannerScreen;
