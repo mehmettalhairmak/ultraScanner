@@ -29,6 +29,7 @@ import {
 } from 'react-native-google-mobile-ads';
 import { showInterstitialAd } from '../ads/interstitial';
 import { showRewardedAd } from '../ads/rewarded';
+import i18next from 'i18next';
 
 const QRGeneratorScreen = () => {
   const navigation =
@@ -80,7 +81,7 @@ const QRGeneratorScreen = () => {
     if (!nameInputValidation || !contentInputValidation) {
       Toast.show({
         type: 'error',
-        text1: 'Please fill the all fields',
+        text1: i18next.t<string>('PleaseFillInAllFields'),
         position: 'bottom',
       });
     } else {
@@ -100,7 +101,10 @@ const QRGeneratorScreen = () => {
             });
           })
           .then(() => {
-            ToastAndroid.show('QRCode saved to gallery', ToastAndroid.LONG);
+            ToastAndroid.show(
+              i18next.t('QRCodeSavedToGallery'),
+              ToastAndroid.LONG,
+            );
           });
       });
     }
@@ -110,7 +114,7 @@ const QRGeneratorScreen = () => {
     if (!nameInputValidation || !contentInputValidation) {
       Toast.show({
         type: 'error',
-        text1: 'Please fill the all fields',
+        text1: i18next.t<string>('PleaseFillInAllFields'),
         position: 'bottom',
       });
     } else {
@@ -163,7 +167,7 @@ const QRGeneratorScreen = () => {
               styles.inputLabel,
               { color: nameInputValidation ? '#FFFF' : 'red' },
             ]}>
-            Name*
+            {i18next.t('FileName')}*
           </Text>
           <View
             style={[
@@ -184,7 +188,7 @@ const QRGeneratorScreen = () => {
               styles.inputLabel,
               { color: contentInputValidation ? '#FFFF' : 'red' },
             ]}>
-            Content*
+            {i18next.t('QRContent')}*
           </Text>
           <View
             style={[
@@ -202,13 +206,13 @@ const QRGeneratorScreen = () => {
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity style={styles.buttonSave} onPress={onSave}>
             <Text style={{ color: '#000', fontFamily: 'Roboto-Bold' }}>
-              Save
+              {i18next.t('Save')}
             </Text>
           </TouchableOpacity>
           {/* Button Share */}
           <TouchableOpacity style={styles.buttonShare} onPress={onShare}>
             <Text style={{ color: '#FFFF', fontFamily: 'Roboto-Bold' }}>
-              Share
+              {i18next.t('Share')}
             </Text>
           </TouchableOpacity>
         </View>

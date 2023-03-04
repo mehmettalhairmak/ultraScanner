@@ -1,0 +1,12 @@
+{
+    "translation": {
+        "FileName":"Nom de fichier",
+        "QRContent":"Contenu QR",
+        "Save": "Sauvegarder",
+        "Share": "Partager",
+        "PleaseFillInAllFields": "Merci de remplir tous les champs.",
+        "QRCodeSavedToGallery": "QR Code enregistré dans la galerie.",
+        "PleaseGrantCameraPermissionsToTheAppInSettings": "Veuillez accorder les autorisations de caméra à l'application dans les paramètres.",
+        "CopiedTextToClipboard": "Texte copié dans le presse-papiers."
+    }
+  }

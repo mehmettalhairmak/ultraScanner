@@ -24,6 +24,7 @@ import { setScanQrFps } from '../redux/slices/scanQrFpsSlice';
 import Clipboard from '@react-native-clipboard/clipboard';
 import Toast from 'react-native-toast-message';
 import { showRewardedAd } from '../ads/rewarded';
+import i18next from 'i18next';
 
 interface ScanResultAlertProps {
   result: string;
@@ -98,7 +99,7 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
       Clipboard.setString(result);
       Toast.show({
         type: 'success',
-        text1: 'Copied text to clipboard.',
+        text1: i18next.t<string>('CopiedTextToClipboard'),
         position: 'bottom',
       });
     }

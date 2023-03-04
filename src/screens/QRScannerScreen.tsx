@@ -30,6 +30,7 @@ import {
   BannerAdSize,
   TestIds,
 } from 'react-native-google-mobile-ads';
+import i18next from '../localization';
 
 const QRScannerScreen = () => {
   const navigation =
@@ -140,7 +141,7 @@ const QRScannerScreen = () => {
         },
       ]}>
       <Text style={{ fontFamily: 'Roboto-Bold', color: '#FFFF' }}>
-        Please set camera permission in settings
+        {i18next.t('PleaseGrantCameraPermissionsToTheAppInSettings')}
       </Text>
     </View>
   );
