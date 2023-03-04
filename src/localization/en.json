@@ -1,0 +1,12 @@
+{
+    "translation": {
+        "FileName":"File Name",
+        "QRContent":"QR Content",
+        "Save": "Save",
+        "Share": "Share",
+        "PleaseFillInAllFields": "Please fill in all fields.",
+        "QRCodeSavedToGallery": "QR Code saved to gallery.",
+        "PleaseGrantCameraPermissionsToTheAppInSettings": "Please grant camera permissions to the app in settings.",
+        "CopiedTextToClipboard": "Copied text to clipboard."
+    }
+  }

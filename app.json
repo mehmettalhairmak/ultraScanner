@@ -1,4 +1,7 @@
 {
   "name": "ultraScanner",
-  "displayName": "ultraScanner"
+  "displayName": "ultraScanner",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-4325774723386556~1062289287"
+  }
 }

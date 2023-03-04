@@ -1,0 +1,12 @@
+{
+    "translation": {
+        "FileName":"文件名",
+        "QRContent":"二維碼內容",
+        "Save": "節省",
+        "Share": "分享",
+        "PleaseFillInAllFields": "請填寫所有字段。",
+        "QRCodeSavedToGallery": "QR 碼保存到畫廊。",
+        "PleaseGrantCameraPermissionsToTheAppInSettings": "請在設置中授予該應用相機權限。",
+        "CopiedTextToClipboard": "已將文本複製到剪貼板。"
+    }
+  }

@@ -1,0 +1,13 @@
+{
+    "translation": {
+        "FileName": "Dosya İsmi",
+        "QRContent": "Karekod İçeriği",
+        "Save": "Kaydet",
+        "Share": "Paylaş",
+        "PleaseFillInAllFields": "Lütfen tüm alanları doldurun.",
+        "QRCodeSavedToGallery": "Karekod galeriye kaydedildi.",
+        "PleaseGrantCameraPermissionsToTheAppInSettings": "Lütfen ayarlar içerisinden uygulamaya kamera izinlerini verin.",
+        "CopiedTextToClipboard": "Metin panoya kopyalandı."
+        
+    }
+}
