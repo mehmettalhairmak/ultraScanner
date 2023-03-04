@@ -90,11 +90,11 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
   });
 
   const titleOnPress = async () => {
-    showRewardedAd();
     const supportLinking = await Linking.canOpenURL(result);
     if (supportLinking) {
       await Linking.openURL(result);
     } else {
+      showRewardedAd();
       Clipboard.setString(result);
       Toast.show({
         type: 'success',
