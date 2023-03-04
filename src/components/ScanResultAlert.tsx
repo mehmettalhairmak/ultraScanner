@@ -23,6 +23,7 @@ import { useAppDispatch } from '../hooks';
 import { setScanQrFps } from '../redux/slices/scanQrFpsSlice';
 import Clipboard from '@react-native-clipboard/clipboard';
 import Toast from 'react-native-toast-message';
+import { showRewardedAd } from '../ads/rewarded';
 
 interface ScanResultAlertProps {
   result: string;
@@ -89,6 +90,7 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
   });
 
   const titleOnPress = async () => {
+    showRewardedAd();
     const supportLinking = await Linking.canOpenURL(result);
     if (supportLinking) {
       await Linking.openURL(result);
