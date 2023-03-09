@@ -22,7 +22,7 @@ import Torch from '../components/Torch';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { selectScanQrFps, setScanQrFps } from '../redux/slices/scanQrFpsSlice';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParams } from '../../App';
 import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
@@ -30,6 +30,8 @@ import i18next from '../localization';
 import { QRScannerScreenBannerAdId } from '../ads/banner';
 
 const QRScannerScreen = () => {
+  const isFocused = useIsFocused();
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -92,7 +94,7 @@ const QRScannerScreen = () => {
           style={StyleSheet.absoluteFill}
           device={device}
           torch={torch}
-          isActive={true}
+          isActive={isFocused}
           focusable
           frameProcessor={frameProcessor}
           frameProcessorFps={scanQrFps}

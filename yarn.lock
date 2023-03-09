@@ -6102,6 +6102,11 @@
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.15.tgz"
   "version" "0.71.15"
 
+"react-native-in-app-review@^4.3.1":
+  "integrity" "sha512-bqCodp9rFZ544uwOw5GxobWPJYRn3n5d1nXkVnLXIy/Kg3zkJw36iz6041fPxt8j5mxv4C6F/30L4a4zwYuScg=="
+  "resolved" "https://registry.npmjs.org/react-native-in-app-review/-/react-native-in-app-review-4.3.1.tgz"
+  "version" "4.3.1"
+
 "react-native-qrcode-svg@^6.2.0":
   "integrity" "sha512-rb2PgUwT8QpQyReVYNvzRY84AHsMh81354Tnkfp6MfqRbcdJURhnBWLBOO11pLMS6eXiwlq4SkcQxy88hRq+Dw=="
   "resolved" "https://registry.npmjs.org/react-native-qrcode-svg/-/react-native-qrcode-svg-6.2.0.tgz"

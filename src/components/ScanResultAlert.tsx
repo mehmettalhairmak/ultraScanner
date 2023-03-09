@@ -25,6 +25,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import Toast from 'react-native-toast-message';
 import { showRewardedAd } from '../ads/rewarded';
 import i18next from 'i18next';
+import InAppReview from 'react-native-in-app-review';
 
 interface ScanResultAlertProps {
   result: string;
@@ -90,7 +91,7 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
     };
   });
 
-  const titleOnPress = async () => {
+  const titleOnPressAction = async () => {
     const supportLinking = await Linking.canOpenURL(result);
     if (supportLinking) {
       await Linking.openURL(result);
@@ -102,6 +103,22 @@ const ScanResultAlert: React.FC<ScanResultAlertProps> = ({
         text1: i18next.t<string>('CopiedTextToClipboard'),
         position: 'bottom',
       });
+    }
+  };
+
+  const titleOnPress = async () => {
+    if (InAppReview.isAvailable()) {
+      InAppReview.RequestInAppReview()
+        .then(async hasFlowFinishedSuccessfully => {
+          if (hasFlowFinishedSuccessfully) {
+            await titleOnPressAction();
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      await titleOnPressAction();
     }
   };
 
