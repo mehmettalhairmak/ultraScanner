@@ -27,6 +27,7 @@ import { showInterstitialAd } from '../ads/interstitial';
 import { showRewardedAd } from '../ads/rewarded';
 import i18next from 'i18next';
 import { QRGeneratorScreenBannerAdId } from '../ads/banner';
+import InAppReview from 'react-native-in-app-review';
 
 const QRGeneratorScreen = () => {
   const navigation =
@@ -201,13 +202,41 @@ const QRGeneratorScreen = () => {
         </View>
         {/* Button Save */}
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity style={styles.buttonSave} onPress={onSave}>
+          <TouchableOpacity
+            style={styles.buttonSave}
+            onPress={() => {
+              if (InAppReview.isAvailable()) {
+                InAppReview.RequestInAppReview().then(
+                  hasFlowFinishedSuccessfully => {
+                    if (hasFlowFinishedSuccessfully) {
+                      onSave();
+                    }
+                  },
+                );
+              } else {
+                onSave();
+              }
+            }}>
             <Text style={{ color: '#000', fontFamily: 'Roboto-Bold' }}>
               {i18next.t('Save')}
             </Text>
           </TouchableOpacity>
           {/* Button Share */}
-          <TouchableOpacity style={styles.buttonShare} onPress={onShare}>
+          <TouchableOpacity
+            style={styles.buttonShare}
+            onPress={() => {
+              if (InAppReview.isAvailable()) {
+                InAppReview.RequestInAppReview().then(
+                  hasFlowFinishedSuccessfully => {
+                    if (hasFlowFinishedSuccessfully) {
+                      onShare();
+                    }
+                  },
+                );
+              } else {
+                onShare();
+              }
+            }}>
             <Text style={{ color: '#FFFF', fontFamily: 'Roboto-Bold' }}>
               {i18next.t('Share')}
             </Text>
