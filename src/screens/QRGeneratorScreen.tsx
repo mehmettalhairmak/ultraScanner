@@ -22,14 +22,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParams } from '../../App';
-import {
-  BannerAd,
-  BannerAdSize,
-  TestIds,
-} from 'react-native-google-mobile-ads';
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 import { showInterstitialAd } from '../ads/interstitial';
 import { showRewardedAd } from '../ads/rewarded';
 import i18next from 'i18next';
+import { QRGeneratorScreenBannerAdId } from '../ads/banner';
 
 const QRGeneratorScreen = () => {
   const navigation =
@@ -218,7 +215,10 @@ const QRGeneratorScreen = () => {
         </View>
       </View>
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <BannerAd unitId={TestIds.BANNER} size={BannerAdSize.FULL_BANNER} />
+        <BannerAd
+          unitId={QRGeneratorScreenBannerAdId}
+          size={BannerAdSize.FULL_BANNER}
+        />
       </View>
     </View>
   );

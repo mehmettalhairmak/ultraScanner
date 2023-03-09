@@ -25,12 +25,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParams } from '../../App';
-import {
-  BannerAd,
-  BannerAdSize,
-  TestIds,
-} from 'react-native-google-mobile-ads';
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 import i18next from '../localization';
+import { QRScannerScreenBannerAdId } from '../ads/banner';
 
 const QRScannerScreen = () => {
   const navigation =
@@ -123,7 +120,10 @@ const QRScannerScreen = () => {
           {/* Footer */}
           <View style={styles.footer}>
             <Torch torch={torch} toggleTorch={toggleTorch} />
-            <BannerAd unitId={TestIds.BANNER} size={BannerAdSize.FULL_BANNER} />
+            <BannerAd
+              unitId={QRScannerScreenBannerAdId}
+              size={BannerAdSize.FULL_BANNER}
+            />
           </View>
         </View>
       </>
