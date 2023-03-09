@@ -134,7 +134,7 @@ const QRGeneratorScreen = () => {
         <View style={{ width: 30, height: 30 }} />
         <TouchableOpacity
           style={styles.headerNavigateButton}
-          onPress={() => navigation.navigate('QRScannerScreen')}>
+          onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" color="white" size={hp(3)} />
         </TouchableOpacity>
       </View>
